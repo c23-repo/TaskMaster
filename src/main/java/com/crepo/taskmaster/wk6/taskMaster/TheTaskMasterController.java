@@ -20,6 +20,12 @@ public class TheTaskMasterController {
     }
 
     @GetMapping("/tasks")
+    public Iterable<TheTaskMaster> getTasks(){
+
+        return theTaskMasterRepository.findAll();
+    }
+
+    @PostMapping("/tasks")
     public void createTasks(@RequestParam String title, @RequestParam String description, @RequestParam String status){
 
         status = status.substring(0, 1).toUpperCase() + status.substring(1);
