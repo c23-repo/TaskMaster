@@ -14,15 +14,25 @@ public class TheTaskMaster {
     private UUID id;
     private String title;
     private String description;
+    private String assignee;
     private String status;
 
     public TheTaskMaster(){}
 
-    public TheTaskMaster(String title, String description, String status){
+    public TheTaskMaster(String title, String description){
 
         this.title = title;
         this.description = description;
-        this.status = status;
+        this.status = "Available";
+
+    }
+
+    public TheTaskMaster(String title, String description, String assignee){
+
+        this.title = title;
+        this.description = description;
+        this.assignee = assignee;
+        this.status = "Assigned";
 
     }
     //GETTERS & SETTERS
@@ -61,5 +71,14 @@ public class TheTaskMaster {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @DynamoDBAttribute
+    public String getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
     }
 }
