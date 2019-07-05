@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a New Task</title>
+</head>
+
+<body>
+
+<h1>Create a New Task</h1>
+
+<form  action="/tasks"   method="POST">
+
+    <label>Task Name: <input type="text" placeholder="Name of task" name="title" required /></label><br/>
+    <label>Task Description: <input type="text" placeholder="Description of your task" name="description" required /></label><br/>
+    <label>Status: <input type="text" name="status" placeholder="Status" required /></label><br/>
+    <br/>
+    <input type="submit" />
+
+</form>
+
+</body>
+</html>
