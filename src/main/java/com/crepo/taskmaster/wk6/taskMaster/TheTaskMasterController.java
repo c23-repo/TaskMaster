@@ -2,8 +2,11 @@ package com.crepo.taskmaster.wk6.taskMaster;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -11,6 +14,8 @@ public class TheTaskMasterController {
 
     @Autowired
     TheTaskMasterRepository theTaskMasterRepository;
+
+    // Get Mapping request methods
 
     @GetMapping("/")
     public String getHomePg(){
@@ -25,14 +30,28 @@ public class TheTaskMasterController {
         return theTaskMasterRepository.findAll();
     }
 
-    @PostMapping("/tasks")
-    public void createTasks(@RequestParam String title, @RequestParam String description, @RequestParam String status){
-
-        status = status.substring(0, 1).toUpperCase() + status.substring(1);
-        TheTaskMaster task = new TheTaskMaster(title, description, status);
-        theTaskMasterRepository.save(task);
-
+    @GetMapping("/users/{assignee}/tasks")
+    public List<TheTaskMaster> getAssigneeTasks(@PathVariable String assignee){
+        return theTaskMasterRepository.findByAssignee(assignee);
     }
+
+
+    //Post mapping request methods
+
+    @PostMapping("/tasks")
+    public ResponseEntity createTasks(@RequestBody TheTaskMaster task){
+
+        if(task.getAssignee() != null){
+            task.setStatus("Assigned");
+        } else {
+            task.setStatus("Available");
+        }
+
+        theTaskMasterRepository.save(task);
+        return new ResponseEntity(task, HttpStatus.OK);
+    }
+
+    //Put mapping request methods
 
     @PutMapping("/tasks/{id}/state")
     public void taskStateUpdate(@PathVariable UUID id){
@@ -53,4 +72,19 @@ public class TheTaskMasterController {
         }
         theTaskMasterRepository.save(task);
     }
+
+    @PutMapping("/tasks/{id}/assign/{assignee}")
+    public void taskUpdate(@PathVariable UUID id, @PathVariable String assignee){
+
+        TheTaskMaster task = theTaskMasterRepository.findById(id).get();
+
+        task.setAssignee(assignee);
+        task.setStatus("Assigned");
+        theTaskMasterRepository.save(task);
+    }
+
+    // Delete mapping request method
+
+    @DeleteMapping("/tasks/{id}")
+    public void deleteTask(@PathVariable UUID id){ theTaskMasterRepository.deleteById(id); }
 }
