@@ -16,23 +16,33 @@ public class TheTaskMaster {
     private String description;
     private String assignee;
     private String status;
+    private String picture;
 
     public TheTaskMaster(){}
 
-    public TheTaskMaster(String title, String description){
+    public TheTaskMaster(String picture){
+
+        this.picture = picture;
+
+    }
+
+
+    public TheTaskMaster(String title, String description, String picture){
 
         this.title = title;
         this.description = description;
         this.status = "Available";
+        this.picture = picture;
 
     }
 
-    public TheTaskMaster(String title, String description, String assignee){
+    public TheTaskMaster(String title, String description, String assignee, String picture){
 
         this.title = title;
         this.description = description;
         this.assignee = assignee;
         this.status = "Assigned";
+        this.picture = picture;
 
     }
     //GETTERS & SETTERS
@@ -80,5 +90,13 @@ public class TheTaskMaster {
 
     public void setAssignee(String assignee) {
         this.assignee = assignee;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }
