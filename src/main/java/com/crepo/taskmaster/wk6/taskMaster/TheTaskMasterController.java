@@ -1,6 +1,7 @@
 package com.crepo.taskmaster.wk6.taskMaster;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,11 @@ import java.util.UUID;
 @RestController
 public class TheTaskMasterController {
 
-    @Autowired
     private S3Client s3Client;
 
     @Autowired
     TheTaskMasterRepository theTaskMasterRepository;
+
 
     // Get Mapping request methods
 

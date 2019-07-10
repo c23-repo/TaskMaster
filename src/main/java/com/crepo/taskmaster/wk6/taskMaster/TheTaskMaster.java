@@ -61,7 +61,7 @@ public class TheTaskMaster {
         return title;
     }
 
-    @DynamoDBAttribute
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -75,6 +75,7 @@ public class TheTaskMaster {
         this.description = description;
     }
 
+    @DynamoDBAttribute
     public String getStatus() {
         return status;
     }
@@ -92,6 +93,7 @@ public class TheTaskMaster {
         this.assignee = assignee;
     }
 
+    @DynamoDBAttribute
     public String getPicture() {
         return picture;
     }
