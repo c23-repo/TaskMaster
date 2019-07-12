@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @RestController
 public class TheTaskMasterController {
 
+    @Autowired
     private S3Client s3Client;
 
     @Autowired
@@ -45,16 +47,20 @@ public class TheTaskMasterController {
     //Post mapping request methods
 
     @PostMapping("/tasks")
-    public ResponseEntity createTasks(@RequestBody TheTaskMaster task){
+    public RedirectView createTasks(@RequestParam String title, @RequestParam String description, @RequestParam String assignee,
+                                      @RequestPart(value = "file") MultipartFile file ){
 
-        if(task.getAssignee() != null){
-            task.setStatus("Assigned");
-        } else {
-            task.setStatus("Available");
-        }
-
+        TheTaskMaster task = new TheTaskMaster();
+        String picture = this.s3Client.uploadFile(file);
+        task.setTitle(title);
+        task.setDescription(description);
+        task.setAssignee(assignee);
+        task.setPicture(picture);
+        String [] stuff = picture.split("/");
+        String potato = stuff[stuff.length - 1];
+        task.setPicReSizer("" + potato);
         theTaskMasterRepository.save(task);
-        return new ResponseEntity(task, HttpStatus.OK);
+        return new RedirectView(("http://taskmasterapp-app.s3-website-us-west-2.amazonaws.com/"));
     }
 
     @PostMapping("/tasks/{id}/images")
@@ -63,6 +69,9 @@ public class TheTaskMasterController {
         TheTaskMaster task = theTaskMasterRepository.findById(id).get();
         String picture = this.s3Client.uploadFile(file);
         task.setPicture(picture);
+        String [] stuff = picture.split("/");
+        String potato = stuff[stuff.length - 1];
+        task.setPicReSizer("" + potato);
         System.out.println(picture);
         theTaskMasterRepository.save(task);
         return task;
