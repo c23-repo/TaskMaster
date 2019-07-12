@@ -17,6 +17,7 @@ public class TheTaskMaster {
     private String assignee;
     private String status;
     private String picture;
+    private String picReSizer;
 
     public TheTaskMaster(){}
 
@@ -27,22 +28,25 @@ public class TheTaskMaster {
     }
 
 
-    public TheTaskMaster(String title, String description, String picture){
+    public TheTaskMaster(String title, String description, String picture, String picReSizer){
 
         this.title = title;
         this.description = description;
         this.status = "Available";
         this.picture = picture;
+        this.picReSizer = picReSizer;
+
 
     }
 
-    public TheTaskMaster(String title, String description, String assignee, String picture){
+    public TheTaskMaster(String title, String description, String assignee, String picture, String picReSizer){
 
         this.title = title;
         this.description = description;
         this.assignee = assignee;
         this.status = "Assigned";
         this.picture = picture;
+        this.picReSizer = picReSizer;
 
     }
     //GETTERS & SETTERS
@@ -100,5 +104,14 @@ public class TheTaskMaster {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    @DynamoDBAttribute
+    public String getPicReSizer() {
+        return picReSizer;
+    }
+
+    public void setPicReSizer(String picReSizer) {
+        this.picReSizer = picReSizer;
     }
 }
